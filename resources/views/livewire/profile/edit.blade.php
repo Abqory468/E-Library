@@ -2,8 +2,8 @@
     <!-- Header -->
     <div class="mb-8">
         <div>
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">Profil Saya</h1>
-            <p class="text-gray-500 text-sm mt-1">Kelola informasi akun dan keamanan Anda</p>
+            <h1 class="text-center text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">Profil Saya</h1>
+            <p class="text-center text-gray-500 text-sm mt-1">Kelola informasi akun dan keamanan Anda</p>
         </div>
     </div>
 
