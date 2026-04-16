@@ -27,6 +27,12 @@ class NotificationDropdown extends Component
         auth()->user()->unreadNotifications->markAsRead();
     }
 
+    public function clearAll()
+    {
+        auth()->user()->notifications()->delete();
+        $this->dispatch('notifications-updated');
+    }
+
     public function render()
     {
         return view('livewire.user.notification-dropdown');

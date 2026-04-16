@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data :class="$store.theme.dark ? 'dark' : ''">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,20 +18,39 @@
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        <!-- Dark mode init (before Alpine) — prevents flash -->
         <script>
-            document.addEventListener('alpine:init', () => {
-                Alpine.store('sidebar', { open: false });
-                Alpine.store('logout', { show: false });
-            });
+            (function () {
+                const saved = localStorage.getItem('theme');
+                if (saved === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
         </script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('sidebar', { open: false });
+                Alpine.store('logout', { show: false });
+
+                // Theme store
+                Alpine.store('theme', {
+                    dark: localStorage.getItem('theme') === 'dark',
+                    toggle() {
+                        this.dark = !this.dark;
+                        localStorage.setItem('theme', this.dark ? 'dark' : 'light');
+                    }
+                });
+            });
+        </script>
     </head>
-    <body class="font-sans antialiased text-gray-900 bg-gray-100">
+    <body class="font-sans antialiased text-gray-900 bg-gray-100 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
 
         
-        <div class="min-h-screen flex {{ (auth()->user()->role ?? 'user') === 'user' ? 'flex-col' : '' }} bg-gray-100">
+        <div class="min-h-screen flex {{ (auth()->user()->role ?? 'user') === 'user' ? 'flex-col' : '' }} bg-gray-100 dark:bg-gray-950 transition-colors duration-300">
             
             @if(auth()->user() && auth()->user()->role === 'admin')
                 <!-- Sidebar Navigation -->
@@ -57,7 +76,7 @@
                 
                 <!-- Top Header (Mobile Toggler & Page Heading) -->
                 @if(auth()->user() && auth()->user()->role === 'admin')
-                    <header class="bg-white shadow z-20 relative">
+                    <header class="bg-white dark:bg-gray-900 shadow z-20 relative">
                         <div class="flex items-center justify-between h-16 px-4 sm:hidden sm:px-6 lg:px-8">
                             <div class="flex items-center gap-4">
                                 <!-- Mobile Hamburger -->
@@ -70,7 +89,7 @@
 
                                 <!-- Page Heading -->
                                 @isset($header)
-                                    <div class="font-semibold text-xl text-gray-800 leading-tight truncate">
+                                    <div class="font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight truncate">
                                         {{ $header }}
                                     </div>
                                 @endisset

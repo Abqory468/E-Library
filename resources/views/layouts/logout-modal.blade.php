@@ -22,35 +22,41 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
              x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-             class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+             class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
             
-            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 sm:mx-0 sm:h-10 sm:w-10">
+                        <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m-3 0l3-3m0 0l-3-3m3 3H9" />
                         </svg>
                     </div>
                     <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                        <h3 class="text-lg font-semibold leading-6 text-gray-900">Konfirmasi Keluar</h3>
+                        <h3 class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+                            {{ app()->getLocale() === 'en' ? 'Confirm Logout' : 'Konfirmasi Keluar' }}
+                        </h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500">Apakah Anda yakin ingin keluar dari sistem? Anda harus masuk kembali untuk mengakses akun Anda.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                {{ app()->getLocale() === 'en' 
+                                    ? 'Are you sure you want to log out? You will need to log in again to access your account.' 
+                                    : 'Apakah Anda yakin ingin keluar dari sistem? Anda harus masuk kembali untuk mengakses akun Anda.' }}
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="bg-gray-50 px-4 py-3 flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-3 sm:px-6">
+            <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-3 sm:px-6">
                 <button type="button" 
                         @click="$store.logout.show = false"
-                        class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition-all">
-                    Batal
+                        class="mt-3 inline-flex w-full justify-center rounded-xl bg-white dark:bg-gray-700 px-4 py-2.5 text-sm font-semibold text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto transition-all">
+                    {{ app()->getLocale() === 'en' ? 'Cancel' : 'Batal' }}
                 </button>
                 <form method="POST" action="{{ route('logout') }}" id="logout-form-modal">
                     @csrf
                     <button type="submit" 
                             class="inline-flex w-full justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 sm:w-auto transition-all">
-                        Ya, Keluar
+                        {{ app()->getLocale() === 'en' ? 'Yes, Log out' : 'Ya, Keluar' }}
                     </button>
                 </form>
             </div>

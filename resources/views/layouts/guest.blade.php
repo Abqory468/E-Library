@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data :class="$store.theme && $store.theme.dark ? 'dark' : ''">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,13 +17,33 @@
         <style>
             [x-cloak] { display: none !important; }
         </style>
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
 
-            <!-- <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"> -->
+        <!-- Dark mode init — prevent flash -->
+        <script>
+            (function () {
+                if (localStorage.getItem('theme') === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+
+        <script>
+            document.addEventListener('alpine:init', () => {
+                if (!Alpine.store('theme')) {
+                    Alpine.store('theme', {
+                        dark: localStorage.getItem('theme') === 'dark',
+                        toggle() {
+                            this.dark = !this.dark;
+                            localStorage.setItem('theme', this.dark ? 'dark' : 'light');
+                        }
+                    });
+                }
+            });
+        </script>
+    </head>
+    <body class="font-sans text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300">
+        <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-950 dark:to-indigo-950 transition-colors duration-300">
                 {{ $slot }}
-            <!-- </div> -->
         </div>
     </body>
 </html>

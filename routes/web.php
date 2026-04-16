@@ -15,6 +15,15 @@ use App\Livewire\User\Dashboard as UserDashboard;
 use App\Livewire\User\MyLoans;
 use Illuminate\Support\Facades\Route;
 
+// Set locale (language switcher)
+Route::get('/set-locale/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+    }
+    return redirect()->back();
+})->name('set-locale');
+
 // Halaman utama
 Route::get('/', Home::class)->name('home');
 Route::get('/all-books', AllBooks::class)->name('allBooks');

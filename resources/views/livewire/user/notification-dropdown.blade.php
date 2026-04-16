@@ -17,22 +17,27 @@
          x-transition:leave="transition ease-in duration-75"
          x-transition:leave-start="opacity-100 scale-100"
          x-transition:leave-end="opacity-0 scale-95"
-         class="absolute right-0 mt-2 w-80 bg-white border border-gray-100 shadow-xl rounded-xl z-50 overflow-hidden" 
+         class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl rounded-xl z-50 overflow-hidden" 
          style="display: none;">
         
-        <div class="p-4 border-b border-gray-50 flex items-center justify-between">
-            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Notifikasi</h3>
-            @if($this->unreadCount > 0)
-                <button wire:click="markAllAsRead" class="text-[10px] text-indigo-600 hover:underline">Tandai semua dibaca</button>
-            @endif
+        <div class="p-4 border-b border-gray-50 dark:border-gray-800 flex items-center justify-between">
+            <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Notifikasi</h3>
+            <div class="flex items-center gap-3">
+                @if($this->unreadCount > 0)
+                    <button wire:click="markAllAsRead" class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline">Tandai semua dibaca</button>
+                @endif
+                @if($this->notifications->count() > 0)
+                    <button wire:click="clearAll" wire:confirm="Hapus semua notifikasi?" class="text-[10px] text-red-600 dark:text-red-400 hover:underline">Hapus semua notif</button>
+                @endif
+            </div>
         </div>
 
         <div class="max-h-96 overflow-y-auto">
             @forelse($this->notifications as $notification)
-                <div class="p-4 border-b border-gray-50 {{ $notification->unread() ? 'bg-indigo-50/30' : '' }} hover:bg-gray-50 transition cursor-pointer"
+                <div class="p-4 border-b border-gray-50 dark:border-gray-800 {{ $notification->unread() ? 'bg-indigo-50/30 dark:bg-indigo-900/10' : '' }} hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
                      wire:click="markAsRead('{{ $notification->id }}')">
                     <div class="flex gap-3">
-                        <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center {{ $notification->data['type'] === 'borrow' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600' }}">
+                        <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center {{ $notification->data['type'] === 'borrow' ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' }}">
                             @if($notification->data['type'] === 'borrow')
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                             @else
@@ -40,22 +45,22 @@
                             @endif
                         </div>
                         <div class="min-w-0 flex-1">
-                            <p class="text-xs text-gray-800 font-medium line-clamp-2">
+                            <p class="text-xs text-gray-800 dark:text-gray-200 font-medium line-clamp-2">
                                 {{ $notification->data['message'] }}
                             </p>
-                            <p class="text-[10px] text-gray-400 mt-1">
+                            <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
                                 {{ $notification->created_at->diffForHumans() }}
                             </p>
                         </div>
                         @if($notification->unread())
-                            <div class="w-1.5 h-1.5 bg-indigo-600 rounded-full mt-1.5"></div>
+                            <div class="w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-1.5"></div>
                         @endif
                     </div>
                 </div>
             @empty
-                <div class="p-8 text-center">
-                    <svg class="w-8 h-8 text-gray-200 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
-                    <p class="text-xs text-gray-400">Belum ada notifikasi</p>
+                <div class="p-8 text-center text-gray-500 dark:text-gray-400">
+                    <svg class="w-8 h-8 text-gray-200 dark:text-gray-700 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
+                    <p class="text-xs">Belum ada notifikasi</p>
                 </div>
             @endforelse
         </div>

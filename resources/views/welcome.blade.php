@@ -63,7 +63,11 @@
             <h2 class="text-xl font-semibold text-gray-800">Buku terbaru</h2>
             <p class="text-sm text-gray-500 mt-1">Koleksi terbaru yang baru saja ditambahkan</p>
         </div>
-        <a href="{{ route('books') }}" class="text-sm text-blue-700 flex justify-end px-4 py-2 rounded-lg hover:underline transition font-medium">Lihat selengkapnya -></a>
+        <a href="{{ route('books') }}" class="text-sm text-blue-700 flex justify-end px-4 py-2 rounded-lg hover:underline transition font-medium">Lihat selengkapnya 
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+            </svg>
+        </a>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
             @foreach ($latestBooks as $book)
             <div class="group cursor-pointer">
